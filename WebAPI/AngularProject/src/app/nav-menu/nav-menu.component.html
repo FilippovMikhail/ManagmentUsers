@@ -1,0 +1,18 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom mb-3">
+  <div class="navbar-nav ml-auto">
+    <ul class="navbar-nav flex-grow-2">
+      <li clas="nav-item" *ngIf="!(LoginStatus$ | async) as LoginStatus">
+        <button class="btn btn-outline-info" *ngIf="LoginStatus" [routerLink]='["/login"]' style="margin-left: 20px;">Вход</button>
+      </li>
+      <li clas="nav-item" *ngIf="!(LoginStatus$ | async) as LoginStatus">
+        <button class="btn btn-outline-danger" *ngIf="LoginStatus" [routerLink]='["/registration"]' style="margin-left: 20px;">Регистрация</button>
+      </li>
+      <li class="nav-item" *ngIf="(LoginStatus$ | async) as LoginStatus">
+        <a class="nav-link text-danger" *ngIf="(UserName$ | async) as UserName">{{UserName | uppercase}}</a>
+      </li>
+      <li clas="nav-item" *ngIf="(LoginStatus$ | async) as LoginStatus">
+        <button class="btn btn-outline-success" (click)="onLogout()" *ngIf="LoginStatus">Выход</button>
+      </li>
+    </ul>
+  </div>
+</nav>

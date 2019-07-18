@@ -1,0 +1,55 @@
+<div class="col-md-4 offset-md-4">
+    <h2 class="text-center">Регистрация</h2>
+
+    <form class="login-form form p-5" [formGroup]="insertForm" method="POST" (ngSubmit)="onSubmit()">
+        <div *ngIf="FirstName.touched && FirstName.errors" class="errorMessage">
+            <span *ngIf="FirstName.hasError('required')">Введите Имя</span>
+        </div>
+        <div class="form-group">
+            <input formControlName="FirstName" type="text" class="form-control" placeholder="Имя"
+                required autofocus>
+        </div>
+
+
+        <div *ngIf="UserName.touched && UserName.errors" class="errorMessage">
+            <span *ngIf="UserName.hasError('required')">Введите Логин</span>
+        </div>
+        <div class="form-group">
+            <input formControlName="UserName" type="text" class="form-control" placeholder="Логин"
+                required autofocus>
+        </div>
+
+
+        <div *ngIf="Email.touched && Email.errors" class="errorMessage">
+            <span *ngIf="Email.hasError('required')">Введите Email</span>
+            <span *ngIf="Email.hasError('email')">Введите корректный Email</span>
+        </div>
+        <div class="form-group">
+            <input formControlName="Email" type="text" class="form-control" placeholder="Email" required
+                autofocus>
+        </div>
+
+
+        <div *ngIf="Password.touched && Password.errors" class="errorMessage">
+            <span *ngIf="Password.hasError('required')">Введите пароль</span>
+            <span *ngIf="Password.hasError('minlength')">Пароль должен быть больше 6 символов</span>
+        </div>
+        <div class="form-group">
+            <input formControlName="Password" type="password" class="form-control" placeholder="Пароль"
+                required autofocus>
+        </div>
+
+
+        <div *ngIf="ConfirmPassword.touched && ConfirmPassword.errors" class="errorMessage">
+            <span *ngIf="ConfirmPassword.hasError('MustMatch')">Пароли не совпадают </span>
+            <span *ngIf="ConfirmPassword.hasError('required')">Подтвердите пароль</span>
+        </div>
+        <div class="form-group">
+            <input formControlName="ConfirmPassword" type="password" class="form-control"
+                placeholder="Подтверждение пароля" required autofocus>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary" [disabled]="insertForm.invalid">Регистрация</button>
+    </form>
+</div>

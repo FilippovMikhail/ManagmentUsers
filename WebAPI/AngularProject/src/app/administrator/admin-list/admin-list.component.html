@@ -1,0 +1,83 @@
+<div>
+    <button type="button" class="btn btn-outline-danger mb-3" (click)="activeRoleTableMode()"
+        style="margin-left: 20px;">Роли</button>
+    <button type="button" class="btn btn-outline-primary mb-3" (click)="activeUserTableMode()"
+        style="margin-left: 20px;">Пользователи</button>
+
+
+    <table class="table table-striped" *ngIf="userTableMode; else roleTableMode">
+        <thead class="text-center">
+            <tr>
+                <th>Имя</th>
+                <th>Логин</th>
+                <th>Email</th>
+                <th>Роли</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users" class="text-center">
+
+                <td>{{user.FirstName}}</td>
+                <td>{{user.UserName}}</td>
+                <td>{{user.Email}}</td>
+                <td *ngIf="isNotClickChangeRoleUser">{{user.RoleNames}}</td>
+                <td *ngIf="!isNotClickChangeRoleUser">
+                    <ng-template [ngIf]="selectedUser?.Id!=user?.Id" [ngIfElse]="add">
+                        {{user.RoleNames}}
+                    </ng-template>
+                </td>
+                <td>
+                    <div *ngIf="isNotClickAddRole">
+                        <input type="button" value="Изменить роль" class="btn btn-sm btn-success"
+                            (click)="changeRoleUser(user)">
+                    </div>
+                    <div *ngIf="!isNotClickAddRole">
+                        <input type="button" value="Сохранить" class="btn btn-sm btn-primary" (click)="save()">
+                        <input type="button" value="Отмена" class="btn btn-sm btn-success" style="margin-left: 20px;"
+                            (click)="cancel()">
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<ng-template #add>
+        <!-- Связываем наш элемент формы [formGroup]="form"-->
+        <!-- На (ngSubmit) событие мы будем регистрировать значение формы-->
+        <form [formGroup]="form" (ngSubmit)="submit()">
+            <div formArrayName="roles" *ngFor="let role of form.controls.roles.controls; let i = index">
+                <label>
+                    <input type="checkbox" [formControlName]="i"> {{listRoles[i]}}<br>
+                </label>
+            </div>
+        </form>
+</ng-template>
+
+<div>
+    <ng-template #roleTableMode>
+        <table class="table table-striped">
+            <thead class="text-center">
+                <tr>
+                    <th>Название роли</th>
+                    <th>Разрешено добавлять</th>
+                    <th>Разрешено изменять</th>
+                    <th>Разрешено просматривать</th>
+                    <th>Разрешено печатать</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let role of tableRoles" class="text-center">
+
+                    <td>{{role.RoleName}}</td>
+                    <td>{{role.CanCreate ? 'Да':'Нет'}}</td>
+                    <td>{{role.CanEdit? 'Да':'Нет'}}</td>
+                    <td>{{role.CanShow? 'Да':'Нет'}}</td>
+                    <td>{{role.CanPrint? 'Да':'Нет'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-template>
+</div>

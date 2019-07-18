@@ -1,0 +1,125 @@
+<p *ngIf="tableMode" class="text-center">Список абонентов</p>
+<div>
+    <button type="button" class="btn btn-outline-danger mb-3" *ngIf="tableMode && CanCreate()" (click)="create()"
+        style="margin-left: 20px;">Добавить
+        нового абонента</button>
+    <button type="button" class="btn btn-outline-primary mb-3" *ngIf="tableMode && CanPrint()" (click)="print()"
+        style="margin-left: 20px;">Печать
+        списка</button>
+    <!-- <input  type="button" value="Добавить нового абонента" class="btn btn-defalt pull-right"  /> -->
+</div>
+<!-- Если tableMode равна true, то отображается элемент table.
+    Иначе вместо элемента table отображается разметка шаблона add -->
+<div *ngIf="CanShow()" class="col-md-12">
+    <table mdbTable small="true" class="table table-sm table-striped table-hover" *ngIf="tableMode; else add">
+        <thead class="text-center">
+            <tr>
+                <th>ИНН</th>
+                <th>Краткое наименование абонента</th>
+                <th>Полное наименование абонента</th>
+                <th>Адрес абонента</th>
+                <th>Телефоны абонента</th>
+                <th>ФИО руководителя</th>
+                <th>Представитель абонента</th>
+                <th>Телефоны представителя</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+            <!-- Проходимся по всем абонентам -->
+            <tr mdbTableCol *ngFor="let sub of subscribers">
+                <!-- Если id объекта из переменной subscriber не равен id текущему объекту,
+                 то просто выводим данные. Если id обоих объектов равны, то вместо этого шаблона
+                 применяется шаблон edit -->
+                <ng-template [ngIf]="subscriber?.Id != sub?.Id" [ngIfElse]="edit">
+                    <td>{{sub.INN}}</td>
+                    <td>{{sub.ShortName}}</td>
+                    <td>{{sub.FullName}}</td>
+                    <td>{{sub.Address}}</td>
+                    <td>{{sub.Phones}}</td>
+                    <td>{{sub.FIOHead}}</td>
+                    <td>{{sub.SubscriberRepresentative}}</td>
+                    <td>{{sub.RepresentativePhones}}</td>
+                    <td *ngIf="CanEdit()">
+                        <button class="btn btn-sm btn-primary" (click)="update(sub)">Изменить</button>
+                    </td>
+                </ng-template>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Шаблон для редактирования -->
+<ng-template #edit>
+    <td>
+        <input type="text" [(ngModel)]="subscriber.INN" class="form-control" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="subscriber.ShortName" class="form-control" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="subscriber.FullName" class="form-control" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="subscriber.Address" class="form-control" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="subscriber.Phones" class="form-control" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="subscriber.FIOHead" class="form-control" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="subscriber.SubscriberRepresentative" class="form-control" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="subscriber.RepresentativePhones" class="form-control" />
+    </td>
+    <td>
+        <button type="button" class="btn btn-primary btn-sm btn-block" (click)="saveUpdate()">Сохранить</button>
+        <button type="button" class="btn btn-warning btn-sm btn-block" (click)="cancelUpdate()">Отмена</button>
+    </td>
+</ng-template>
+
+<!-- Шаблон для добавления -->
+<ng-template #add>
+    <div class="col-md-4 offset-md-4">
+        <form [formGroup]="insertForm" (ngSubmit)="save()">
+            <div class="form-group">
+                <label>ИНН</label>
+                <input type="text" formControlName="INN" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Краткое наименование абонента</label>
+                <input type="text" formControlName="ShortName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Полное наименование абонента</label>
+                <input type="text" formControlName="FullName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Адрес абонента</label>
+                <input type="text" formControlName="Address" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Телефоны абонента</label>
+                <input type="text" formControlName="Phones" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>ФИО руководителя</label>
+                <input type="text" formControlName="FIOHead" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Представитель абонента</label>
+                <input type="text" formControlName="SubscriberRepresentative" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Телефоны представителя</label>
+                <input type="text" formControlName="RepresentativePhones" class="form-control" />
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn-success mr-auto" [disabled]="insertForm.invalid">Сохранить</button>
+                <button type="button" class="btn  btn-warning ml-auto" (click)="cancel()">Отмена</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
