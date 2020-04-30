@@ -22,7 +22,7 @@
     "angular-datatables": "^8.0.0",
     "datatables.net": "^1.10.19",
     "datatables.net-dt": "^1.10.19",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "ngx-bootstrap": "^5.1.0",
     "ngx-toastr": "^10.0.4",
     "rxjs": "~6.4.0",
