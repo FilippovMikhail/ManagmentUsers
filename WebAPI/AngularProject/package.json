@@ -20,7 +20,7 @@
     "@angular/platform-browser-dynamic": "~8.1.1",
     "@angular/router": "~8.1.1",
     "angular-datatables": "^8.0.0",
-    "datatables.net": "^1.10.19",
+    "datatables.net": "^1.11.3",
     "datatables.net-dt": "^1.10.19",
     "jquery": "^3.4.1",
     "ngx-bootstrap": "^5.1.0",
